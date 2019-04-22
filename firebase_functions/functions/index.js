@@ -9,6 +9,11 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 // Starts a new game with a single player
 exports.initalizeGame = functions.https.onRequest((request, response) => {
+  const location = {
+    latitude: Number(request.body.latitude),
+    longitude: Number(request.body.longitude)
+  };
+
   const playerInfo = {
     [request.body.userID]: {
       laserGunID: Number(request.body.laserGunID),
@@ -17,7 +22,12 @@ exports.initalizeGame = functions.https.onRequest((request, response) => {
     }
   };
 
-  admin.firestore().collection("game").add(playerInfo)
+  const gameInfo = {
+    location: location,
+    players: playerInfo,
+  }
+
+  admin.firestore().collection("game").add(gameInfo)
     .then((docRef) => {
       return response.send(docRef.id);
     })
@@ -30,14 +40,16 @@ exports.initalizeGame = functions.https.onRequest((request, response) => {
 // Adds a player to an existing game
 exports.addPlayer = functions.https.onRequest((request, response) => {
   const playerInfo = {
-    [request.body.userID]: {
-      laserGunID: Number(request.body.laserGunID),
-      vestID: Number(request.body.vestID),
-      health: 100
-    }
+    laserGunID: Number(request.body.laserGunID),
+    vestID: Number(request.body.vestID),
+    health: 100
   };
 
-  admin.firestore().collection("game").doc(request.body.gameID).update(playerInfo)
+  const fieldToUpdate = "players." + request.body.userID;
+
+  admin.firestore().collection("game").doc(request.body.gameID).update({
+    [fieldToUpdate]: playerInfo
+  })
     .then(() => {
       return response.send("Success");
     })
