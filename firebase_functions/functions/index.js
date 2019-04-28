@@ -47,6 +47,8 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
 
   const fieldToUpdate = "players." + request.body.userID;
 
+  console.log("game id is: " + request.body.gameID);
+
   admin.firestore().collection("game").doc(request.body.gameID).update({
     [fieldToUpdate]: playerInfo
   })
