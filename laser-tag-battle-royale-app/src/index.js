@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import Lobby from './lobby';
+import Game from './game';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
@@ -11,6 +11,7 @@ const routing = (
 		<div>
 			<Route exact path="/" component={App} />
 			<Route path="/lobby" component={Lobby} />
+			<Route path="/game" component={Game} />
 		</div>
 	</Router>
 )
