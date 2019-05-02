@@ -39,31 +39,26 @@ class CreateRoom extends React.Component {
         form_body = form_body.join('&');
       
         let other_params = {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: form_body,
-          method: "POST"
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+            body: form_body
         };
 
-        try{
-            fetch(URL, other_params)
-                .then(TypeError => {
-                    console.log(TypeError);
-                })
-                .then( data => {
-                    console.log(data);
-                })
-                .then(res => {
-                    console.log(res);
-                })
-                .then(error =>{
-                    console.log(error);
-                });
-        }
-        catch(error){
-            console.log(error);
-        }
+        fetch(URL, other_params)
+            .then(TypeError => {
+                console.log(TypeError);
+            })
+            .then( data => {
+                console.log(data);
+            })
+            .then(res => {
+                console.log(res);
+            })
+            .then(error =>{
+                console.log(error);
+            });
       }
 
     render(){
@@ -74,7 +69,6 @@ class CreateRoom extends React.Component {
                 <form autoComplete="off">
                     <FormControl>
                         <Select id = "num-players"
-                            value={this.state.num_players}
                             onChange={this.handleChange}>
                             <MenuItem value="">
                                 <em>None</em>
@@ -88,7 +82,7 @@ class CreateRoom extends React.Component {
                         </Select>
                     </FormControl>
                 </form>
-                <Button id="create-room-button" component={Link} to="/lobby/waiting" onClick={this.createLobby()}>Create Lobby</Button>
+                <Button id="create-room-button" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
                 <Button component={Link} to="/lobby">Back</Button>
             </div>
         );
