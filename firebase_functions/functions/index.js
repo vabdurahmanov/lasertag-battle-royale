@@ -32,18 +32,13 @@ exports.initalizeGame = functions.https.onRequest((request, response) => {
 // Adds a player to an existing game
 exports.addPlayer = functions.https.onRequest((request, response) => {
   const playerInfo = {
+    name: request.body.userID,
     laserGunID: Number(request.body.laserGunID),
     vestID: Number(request.body.vestID),
     health: 100
   };
 
-  const fieldToUpdate = "players." + request.body.userID;
-
-  console.log("game id is: " + request.body.gameID);
-
-  admin.firestore().collection("game").doc(request.body.gameID).update({
-    [fieldToUpdate]: playerInfo
-  })
+  let _ = async_functions.player_add(admin, playerInfo, request.body.gameID)
     .then(() => {
       return response.send("Success");
     })
