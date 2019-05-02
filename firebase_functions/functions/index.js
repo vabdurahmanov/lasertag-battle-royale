@@ -35,7 +35,8 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
     name: request.body.userID,
     laserGunID: Number(request.body.laserGunID),
     vestID: Number(request.body.vestID),
-    health: 100
+    health: 100,
+    ammo: 100
   };
 
   let _ = async_functions.player_add(admin, playerInfo, request.body.gameID)
@@ -50,11 +51,20 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
 
 // Decrements a player's weapon's ammo.
 exports.decrementAmmo = functions.https.onRequest((request, response) => {
-  let query = admin.firestore().collection("game");
-
-  var getDoc = query.get()
+  let _ = async_functions.decrement_ammo(admin, Number(request.body.laserGunID))
     .then(doc => {
-      return response.send(doc.docs);
+      return response.send("success");
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+});
+
+// Decrements a player's health.
+exports.decrementHealth = functions.https.onRequest((request, response) => {
+  let _ = async_functions.decrement_health(admin, Number(request.body.vestID))
+    .then(doc => {
+      return response.send("success");
     })
     .catch(err => {
       console.log('Error getting document', err);

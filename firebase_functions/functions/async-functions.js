@@ -23,4 +23,28 @@ async function player_add(firebase_admin, playerInfo, gameID) {
   return gameDocumentRef;
 }
 
-module.exports = { game_initalization, player_add }
+async function decrement_ammo(firebase_admin, laserGunID) {
+  let queryRef = await firebase_admin.firestore().collection("players").where("laserGunID", "==", laserGunID).get();
+
+  queryRef.forEach(doc => {
+    let data = doc.data();
+
+    const new_ammo = data.ammo - 1;
+
+    firebase_admin.firestore().collection("players").doc(doc.id).update({ ammo: new_ammo });
+  });
+}
+
+async function decrement_health(firebase_admin, vestID) {
+  let queryRef = await firebase_admin.firestore().collection("players").where("vestID", "==", vestID).get();
+
+  queryRef.forEach(doc => {
+    let data = doc.data();
+
+    const new_health = data.health - 1;
+
+    firebase_admin.firestore().collection("players").doc(doc.id).update({ health: new_health });
+  });
+}
+
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health }
