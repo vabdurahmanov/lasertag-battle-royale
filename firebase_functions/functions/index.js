@@ -1,33 +1,25 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const async_functions = require('./async-functions');
 
 admin.initializeApp();
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
-
 // Starts a new game with a single player
 exports.initalizeGame = functions.https.onRequest((request, response) => {
-  const location = {
+  const gameLocation = {
     latitude: Number(request.body.latitude),
     longitude: Number(request.body.longitude)
   };
 
   const playerInfo = {
-    [request.body.userID]: {
-      laserGunID: Number(request.body.laserGunID),
-      vestID: Number(request.body.vestID),
-      health: 100
-    }
+    name: request.body.userID,
+    laserGunID: Number(request.body.laserGunID),
+    vestID: Number(request.body.vestID),
+    health: 100,
+    ammo: 100
   };
 
-  const gameInfo = {
-    location: location,
-    players: playerInfo,
-  }
-
-  admin.firestore().collection("game").add(gameInfo)
+  let _ = async_functions.game_initalization(admin, playerInfo, gameLocation)
     .then((docRef) => {
       return response.send(docRef.id);
     })
@@ -58,5 +50,18 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
     .catch((err) => {
       console.log(err);
       return response.send(err);
+    });
+});
+
+// Decrements a player's weapon's ammo.
+exports.decrementAmmo = functions.https.onRequest((request, response) => {
+  let query = admin.firestore().collection("game");
+
+  var getDoc = query.get()
+    .then(doc => {
+      return response.send(doc.docs);
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
     });
 });
