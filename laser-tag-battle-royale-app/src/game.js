@@ -1,16 +1,37 @@
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact,{Circle} from 'google-map-react';
 //import './game.css';
+/*global google*/
+//var center = this.props.lat
+const apiIsLoaded = (map, maps, center) => {
+  const circle = new google.maps.Circle({
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.3,
+    map,
+    center: center,
+    radius: 1000
+  });
+};
+const getLoc = (map) =>{
+  google.maps.event.addListener(map, "click", function (e) {
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+  //lat and lng is available in e object
+  var latLng = e.latLng;
+  console.log(latLng);
+});
+function handleClick(event) {var lat = event.latLng.lat(), lng = event.latLng.lng()}
+};
 class Game extends React.Component {
    static defaultProps = {
       center: {
-        lat: 59.95,
-        lng: 30.33
+        lat: 0,
+        lng: 0
       },
-      zoom: 11
+      zoom: 12
     };
   render() {
     return (
@@ -18,15 +39,11 @@ class Game extends React.Component {
     <h1>Game</h1>
     <div style={{ height: '50vh', width: '50%' }}>
     <GoogleMapReact
-          bootstrapURLKeys={{ key:"AIzaSyDbZF5XdDfleAHFu2ThftTRk-F48F_qZMw"}}
-          defaultCenter={this.props.center}
+          bootstrapURLKeys={{ key:"AIzaSyC2yEglKuqHR6NfFD8fg2TYM7_lkLlEpI8"}}
+          defaultCenter={{lat: 33.98, lng:-117.4}}
           defaultZoom={this.props.zoom}
+          onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps,{lat: 33.98, lng:-117.4})}
         >
-        <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
-            text="My Marker"
-          />
           </GoogleMapReact>
     </div>
     </div>
@@ -36,5 +53,5 @@ class Game extends React.Component {
 
 
 export default GoogleApiWrapper({
-   apiKey: ("AIzaSyDbZF5XdDfleAHFu2ThftTRk-F48F_qZMw")
+   apiKey: ("AIzaSyC2yEglKuqHR6NfFD8fg2TYM7_lkLlEpI8")
  })(Game)
