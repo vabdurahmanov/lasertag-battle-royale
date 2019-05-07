@@ -8,7 +8,7 @@ async function game_initalization(firebase_admin, playerInfo, gameLocation) {
 
   let gameDocumentRef = await firebase_admin.firestore().collection("games").add(gameInfo);
   return gameDocumentRef;
-}
+};
 
 async function player_add(firebase_admin, playerInfo, gameID) {
   let playerDocumentRef = await firebase_admin.firestore().collection("players").add(playerInfo);
@@ -21,7 +21,7 @@ async function player_add(firebase_admin, playerInfo, gameID) {
 
   let gameDocumentRef = await firebase_admin.firestore().collection("games").doc(gameID).update("players", playerArray);
   return gameDocumentRef;
-}
+};
 
 async function decrement_ammo(firebase_admin, laserGunID) {
   let queryRef = await firebase_admin.firestore().collection("players").where("laserGunID", "==", laserGunID).get();
@@ -33,7 +33,7 @@ async function decrement_ammo(firebase_admin, laserGunID) {
 
     firebase_admin.firestore().collection("players").doc(doc.id).update({ ammo: new_ammo });
   });
-}
+};
 
 async function decrement_health(firebase_admin, vestID) {
   let queryRef = await firebase_admin.firestore().collection("players").where("vestID", "==", vestID).get();
@@ -45,6 +45,6 @@ async function decrement_health(firebase_admin, vestID) {
 
     firebase_admin.firestore().collection("players").doc(doc.id).update({ health: new_health });
   });
-}
+};
 
-module.exports = { game_initalization, player_add, decrement_ammo, decrement_health }
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health };

@@ -52,7 +52,7 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
 // Decrements a player's weapon's ammo.
 exports.decrementAmmo = functions.https.onRequest((request, response) => {
   let _ = async_functions.decrement_ammo(admin, Number(request.body.laserGunID))
-    .then(doc => {
+    .then(() => {
       return response.send("success");
     })
     .catch(err => {
@@ -63,7 +63,7 @@ exports.decrementAmmo = functions.https.onRequest((request, response) => {
 // Decrements a player's health.
 exports.decrementHealth = functions.https.onRequest((request, response) => {
   let _ = async_functions.decrement_health(admin, Number(request.body.vestID))
-    .then(doc => {
+    .then(() => {
       return response.send("success");
     })
     .catch(err => {
