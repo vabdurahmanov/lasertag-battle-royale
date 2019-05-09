@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Main</h1>
-        <Button component = {Link} to="/Lobby">Look for Lobby</Button>
+        <Button variant="outlined" component = {Link} to="/Lobby">Look for Lobby</Button>
       </div>
    );
   }

@@ -129,8 +129,8 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button id="create-room-button" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
-                <Button component={Link} to="/lobby">Back</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
+                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
             </div>
         );
     }
