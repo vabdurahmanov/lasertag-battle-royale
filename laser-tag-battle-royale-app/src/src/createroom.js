@@ -11,21 +11,18 @@ import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 
 class CreateRoom extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            lobby_name:"",
-            num_players: -1,
-            lat: 33.98,
-            lng: -117.4,
-            zoom: 12,
-            radius:1000
-        }
+    state = {
+        lobby_name:"",
+        num_players: null,
+        lat: 33.98,
+        lng: -117.4,
+        zoom: 12,
+        radius:1000
     }
 
-    handleChange = (event) => {
-        this.setState({ num_players : event.target.value});
-    };
+    handleChange(event){
+        this.setState((state, props) =>{ this.state.num_players = event.target.value});
+    }
   mapClick = (event) =>{
     this.setState({
       lat:event.latLng.lat(),
@@ -81,7 +78,7 @@ class CreateRoom extends React.Component {
       }
 
     render(){
-    const GoogleMapExample = withGoogleMap(props => (
+            const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
         defaultCenter = { { lat: this.state.lat, lng: this.state.lng } }
         defaultZoom = { 13 }
@@ -97,17 +94,16 @@ class CreateRoom extends React.Component {
                 <form autoComplete="off">
                     <FormControl>
                         <Select id = "num-players"
-                            value={this.state.num_players}
                             onChange={this.handleChange}>
-                            <MenuItem value={-1}>
+                            <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value = {1}>1</MenuItem>
-                            <MenuItem value = {2}>2</MenuItem>
-                            <MenuItem value = {3}>3</MenuItem>
-                            <MenuItem value = {4}>4</MenuItem>
-                            <MenuItem value = {5}>5</MenuItem>
-                            <MenuItem value = {6}>6</MenuItem>
+                            <MenuItem value = "1">1</MenuItem>
+                            <MenuItem value = "2">2</MenuItem>
+                            <MenuItem value = "3">3</MenuItem>
+                            <MenuItem value = "4">4</MenuItem>
+                            <MenuItem value = "5">5</MenuItem>
+                            <MenuItem value = "6">6</MenuItem>
                         </Select>
                     </FormControl>
                 </form>
@@ -119,7 +115,7 @@ class CreateRoom extends React.Component {
         </GoogleMapExample>
         <FormControl>
                   <Select
-            value={this.state.radius}
+            value={this.state.age}
             onChange={this.handleRadiusChange}
           >
         
@@ -133,8 +129,8 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button id="create-room-button" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
-                <Button component={Link} to="/lobby">Back</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
+                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
             </div>
         );
     }
