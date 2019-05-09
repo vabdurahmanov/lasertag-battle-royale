@@ -27,20 +27,16 @@ class Lobby extends React.Component {
   render() {
     return (
       <div className = "root">   
-        <h1 style={{textAlign:'center'}}>Lobby</h1>
-        <Grid id = "help" container spacing={24} alignItems="center">
-          <Paper style={{margin:'30px',width:'250px', textAlign:'center'}}>
-            <Button className="Button" component = {Link} to="Lobby/Create">Create Lobby</Button>
-          </Paper>
-          <Grid item xs = {12} sm = {6}>
-            <Paper style={{width:'250px', textAlign:'center'}}>
-              <Button className="Button" component = {Link} to="Lobby/Waiting">Join Lobby</Button>
-            </Paper>
+        <Button className="Button" variant="outlined" component = {Link} to="/">Back</Button>
+        <h1 className="Title">Lobby</h1>
+          <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
+            <Grid className = "BeginGrid" item xs = {12} sm = {2}>
+              <Button className="Button" variant="outlined" component = {Link} to="Lobby/Create">Create Lobby</Button>
+            </Grid>
+            <Grid item xs = {12} sm = {2} >
+                <Button className="Button" variant="outlined" component = {Link} to="Lobby/Waiting">Join Lobby</Button>
+            </Grid>
           </Grid>
-          <Grid item xs = {12} sm = {6}>
-            <Button id="back_main" component = {Link} to="/">Back</Button>
-          </Grid>
-        </Grid>
         </div>
     )
   }

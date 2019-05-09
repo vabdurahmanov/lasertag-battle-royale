@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Lobby from './lobby';
-import Game from './game';
-import WaitingRoom from './waitingroom';
-import CreateRoom from './createroom';
+import App from './src/App';
+import Lobby from './src/lobby';
+import Game from './src/game';
+import WaitingRoom from './src/waitingroom';
+import CreateRoom from './src/createroom';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 

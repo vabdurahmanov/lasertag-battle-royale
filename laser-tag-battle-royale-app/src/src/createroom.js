@@ -75,21 +75,6 @@ class CreateRoom extends React.Component {
             .then(error =>{
                 console.log(error);
             });
-
-
-        fetch(URL, other_params)
-            .then(TypeError => {
-                console.log(TypeError);
-            })
-            .then( data => {
-                console.log(data);
-            })
-            .then(res => {
-                console.log(res);
-            })
-            .then(error =>{
-                console.log(error);
-            });
       }
 
     render(){

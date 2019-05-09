@@ -42,6 +42,7 @@ class WaitingRoom extends React.Component {
     //Start should only be visible to the creator of the room.
     return (
       <div>
+<<<<<<< HEAD:laser-tag-battle-royale-app/src/waitingroom.js
         
         <h1>WaitingRoom</h1>
         <div>Your location: longitude = 
@@ -51,6 +52,12 @@ class WaitingRoom extends React.Component {
         </div>
         <Button component = {Link} to="/Lobby/Start">Start</Button>
         <Button component = {Link} to="/Lobby">Back</Button>
+=======
+        <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
+        <h1>Waiting Room</h1>
+        <Button variant="outlined" component = {Link} to="/Lobby/Start">Start</Button>
+        
+>>>>>>> jkwon045/create-web-app:laser-tag-battle-royale-app/src/src/waitingroom.js
     </div>
     )
   }
