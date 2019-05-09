@@ -6,9 +6,10 @@ class WaitingRoom extends React.Component {
     //Start should only be visible to the creator of the room.
     return (
       <div>
-        <h1>WaitingRoom</h1>
-        <Button variant="outlined" component = {Link} to="/Lobby/Start">Start</Button>
         <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
+        <h1>Waiting Room</h1>
+        <Button variant="outlined" component = {Link} to="/Lobby/Start">Start</Button>
+        
     </div>
     )
   }

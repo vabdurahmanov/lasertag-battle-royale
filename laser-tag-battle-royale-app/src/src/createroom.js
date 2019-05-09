@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
-import {Map, InfoWindow, GoogleApiWrapper,Polygon} from '../node_modules/google-maps-react';
+import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 
 class CreateRoom extends React.Component {
@@ -65,21 +65,6 @@ class CreateRoom extends React.Component {
             },
             body: form_body
         };
-        fetch(URL, other_params)
-            .then(TypeError => {
-                console.log(TypeError);
-            })
-            .then( data => {
-                console.log(data);
-            })
-            .then(res => {
-                console.log(res);
-            })
-            .then(error =>{
-                console.log(error);
-            });
-
-
         fetch(URL, other_params)
             .then(TypeError => {
                 console.log(TypeError);
