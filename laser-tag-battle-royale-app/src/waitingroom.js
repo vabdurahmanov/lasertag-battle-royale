@@ -7,8 +7,8 @@ class WaitingRoom extends React.Component {
     return (
       <div>
         <h1>WaitingRoom</h1>
-        <Button component = {Link} to="/Lobby/Start">Start</Button>
-        <Button component = {Link} to="/Lobby">Back</Button>
+        <Button variant="outlined" component = {Link} to="/Lobby/Start">Start</Button>
+        <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
     </div>
     )
   }

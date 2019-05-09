@@ -1,12 +1,19 @@
-.Lobby{
+.Title{
     text-align:center;
+    font-family:Arial;
 }
 
-.helpy{
-    margin:20px;
+.Grid{
+    align-content: stretch;
 }
-/*
-h1{
+
+.BeginGrid{
+    margin-left:30px;
+    padding-left:30px;
+}
+
+.Button{
     text-align:center;
+    padding-left: 30px;
+    padding-right: 30px;
 }
-*/

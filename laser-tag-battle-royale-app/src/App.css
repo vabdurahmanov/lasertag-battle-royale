@@ -1,5 +1,10 @@
-.App {
-  text-align: center;
+.MainMenu {
+  text-align:center;
+}
+
+.Title{
+  text-align:center;
+  font-family:Arial;
 }
 
 .App-logo {
