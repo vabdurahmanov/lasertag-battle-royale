@@ -70,3 +70,15 @@ exports.decrementHealth = functions.https.onRequest((request, response) => {
       console.log('Error getting document', err);
     });
 });
+
+// Gets player info.
+exports.playerInfo = functions.https.onRequest((request, response) => {
+  let _ = async_functions.player_info(admin, request.body.name)
+    .then(data => {
+      console.log(data)
+      return response.send(data);
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+});

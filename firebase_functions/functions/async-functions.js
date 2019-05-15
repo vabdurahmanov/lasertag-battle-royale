@@ -47,4 +47,19 @@ async function decrement_health(firebase_admin, vestID) {
   });
 };
 
-module.exports = { game_initalization, player_add, decrement_ammo, decrement_health };
+async function player_info(firebase_admin, name) {
+  let queryRef = await firebase_admin.firestore().collection("players").where("name", "==", name).get();
+  let dataList = [];
+
+  queryRef.forEach(doc => {
+    dataList.push(doc.data());
+  });
+
+  if (dataList.length > 0) {
+    return dataList[0];
+  } else {
+    return null;
+  }
+};
+
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info };
