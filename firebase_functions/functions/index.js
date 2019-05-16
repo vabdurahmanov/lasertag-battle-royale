@@ -82,3 +82,14 @@ exports.playerInfo = functions.https.onRequest((request, response) => {
       console.log('Error getting document', err);
     });
 });
+
+// Gets number of players in a game.
+exports.playerCount = functions.https.onRequest((request, response) => {
+  let _ = async_functions.player_count(admin, request.body.gameID)
+    .then(data => {
+      return response.send({ playerCount: data });
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+});

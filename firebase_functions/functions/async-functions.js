@@ -62,4 +62,10 @@ async function player_info(firebase_admin, name) {
   }
 };
 
-module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info };
+async function player_count(firebase_admin, gameID) {
+  let document = await firebase_admin.firestore().collection("games").doc(gameID).get();
+  let data = document.data();
+  return data.players.length;
+};
+
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info, player_count };
