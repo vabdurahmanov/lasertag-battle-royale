@@ -15,7 +15,7 @@ import WaitingRoom from './waitingroom';
 class CreateRoom extends React.Component {
     state = {
         lobby_name:"",
-        num_players: null,
+        num_players: 1,
         lat: 33.98,
         lng: -117.4,
         zoom: 12,
@@ -23,8 +23,8 @@ class CreateRoom extends React.Component {
         hasClicked: false
     }
 
-    handleChange(event){
-        this.setState((state, props) =>{ this.state.num_players = event.target.value});
+    handleChange = (event)=>{
+        this.setState({num_players: event.target.value });
     }
   mapClick = (event) =>{
     this.setState({
@@ -58,7 +58,7 @@ class CreateRoom extends React.Component {
                 <TextField id="lobby-name" label="Lobby Name"></TextField>
                 <form autoComplete="off">
                     <FormControl>
-                        <Select id = "num-players"
+                        <Select id = "num-players" value={this.num_players}
                             onChange={this.handleChange}>
                             <MenuItem value="">
                                 <em>None</em>
