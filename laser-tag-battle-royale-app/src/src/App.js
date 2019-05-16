@@ -10,7 +10,7 @@ class App extends React.Component {
       <div className="MainMenu">
         <h1 className ="App-Title">Main</h1>
         <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
-          <Grid item xs={24}>
+          <Grid item xs={12}>
             <Button variant="outlined" component = {Link} to="/Lobby">Look for Lobby</Button>
           </Grid>
         </Grid>

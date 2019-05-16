@@ -2,24 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import '../css/lobby.css';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  Margin:{
-    height:140,
-    width:100,
-  },
-  Button: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-});
 
 //Want to get list of open Lobbies here and then post it
 //Maybe use divider from material-ui?
