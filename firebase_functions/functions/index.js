@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const async_functions = require('./async-functions');
+const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
@@ -21,7 +22,10 @@ exports.initalizeGame = functions.https.onRequest((request, response) => {
 
   let _ = async_functions.game_initalization(admin, playerInfo, gameLocation)
     .then((docRef) => {
-      return response.send(docRef.id);
+      console.log("THIS IS A TEST: " + docRef.id);
+      cors(request, response, () => {
+        return response.send(docRef.id);
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -41,7 +45,9 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
 
   let _ = async_functions.player_add(admin, playerInfo, request.body.gameID)
     .then(() => {
-      return response.send("Success");
+      cors(request, response, () => {
+        return response.send("Success");
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -53,7 +59,7 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
 exports.decrementAmmo = functions.https.onRequest((request, response) => {
   let _ = async_functions.decrement_ammo(admin, Number(request.body.laserGunID))
     .then(() => {
-      return response.send("success");
+      return response.send("Success");
     })
     .catch(err => {
       console.log('Error getting document', err);
@@ -64,7 +70,7 @@ exports.decrementAmmo = functions.https.onRequest((request, response) => {
 exports.decrementHealth = functions.https.onRequest((request, response) => {
   let _ = async_functions.decrement_health(admin, Number(request.body.vestID))
     .then(() => {
-      return response.send("success");
+      return response.send("Success");
     })
     .catch(err => {
       console.log('Error getting document', err);
@@ -76,7 +82,9 @@ exports.playerInfo = functions.https.onRequest((request, response) => {
   let _ = async_functions.player_info(admin, request.body.name)
     .then(data => {
       console.log(data)
-      return response.send(data);
+      cors(request, response, () => {
+        return response.send(data);
+      });
     })
     .catch(err => {
       console.log('Error getting document', err);
@@ -87,7 +95,9 @@ exports.playerInfo = functions.https.onRequest((request, response) => {
 exports.playerCount = functions.https.onRequest((request, response) => {
   let _ = async_functions.player_count(admin, request.body.gameID)
     .then(data => {
-      return response.send({ playerCount: data });
+      cors(request, response, () => {
+        return response.send({ playerCount: data });
+      });
     })
     .catch(err => {
       console.log('Error getting document', err);
