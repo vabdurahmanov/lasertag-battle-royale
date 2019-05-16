@@ -3,7 +3,7 @@ import Lobby from './lobby';
 import {geolocated} from 'react-geolocated';
 import {withScriptjs,withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import { compose, withProps } from "recompose";
-import './game.css';
+import '../css/game.css';
 /*global google*/
 const MyMapComponent = compose(
   withProps({
