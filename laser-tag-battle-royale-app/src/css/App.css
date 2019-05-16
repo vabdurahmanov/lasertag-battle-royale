@@ -1,4 +1,9 @@
-.App {
+.App-Title{
+  text-align: center;
+  font-family: Arial;
+}
+
+.MainMenu{
   text-align: center;
 }
 
