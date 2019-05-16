@@ -9,19 +9,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
+import WaitingRoom from './waitingroom';
+
 
 class CreateRoom extends React.Component {
     state = {
         lobby_name:"",
-        num_players: null,
+        num_players: 1,
         lat: 33.98,
         lng: -117.4,
         zoom: 12,
-        radius:1000
+        radius:1000,
+        hasClicked: false
     }
 
-    handleChange(event){
-        this.setState((state, props) =>{ this.state.num_players = event.target.value});
+    handleChange = (event)=>{
+        this.setState({num_players: event.target.value });
     }
   mapClick = (event) =>{
     this.setState({
@@ -33,51 +36,13 @@ class CreateRoom extends React.Component {
     this.setState({ radius: event.target.value });
   };
 
-    createLobby(){
-        //Change this later to read the lobby name of a certain clicked lobby
-        const lobby_name = "1";
-        //Get Username, vest_id, gun_id, location if user is creating lobby
-        const URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/initalizeGame"
-        let form_body = [];
-      
-        let userID = "userID" + "=" + "Name"; //Replace Name with actual userID
-        let laserGunID = "laserGunID" + "=" + "1"; //Replace Number with entered laserGunID
-        let vestID = "vestID" + "=" + "1"; //Replace Number with entered vestID
-        let gameID = "gameID" + "=" + this.state.lobby_name; //Replace with queried game ID.
-        let latitude = "latitude" + "=" + this.state.lat; //Replace with queried lat & long
-        let longitude = "longitude" + "=" + this.state.lng;
-        let radius = "radius" + "=" + this.state.radius;
-        form_body.push(userID);
-        form_body.push(laserGunID);
-        form_body.push(vestID);
-        form_body.push(gameID);
-        form_body.push(latitude);
-        form_body.push(longitude);
-        form_body = form_body.join('&');
-      
-        let other_params = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-            },
-            body: form_body
-        };
-        fetch(URL, other_params)
-            .then(TypeError => {
-                console.log(TypeError);
-            })
-            .then( data => {
-                console.log(data);
-            })
-            .then(res => {
-                console.log(res);
-            })
-            .then(error =>{
-                console.log(error);
-            });
-      }
+    createLobby=(event)=>{
+      this.setState({hasClicked: true});
+
+      };
 
     render(){
+      if (this.state.hasClicked === false) {
             const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
         defaultCenter = { { lat: this.state.lat, lng: this.state.lng } }
@@ -93,7 +58,7 @@ class CreateRoom extends React.Component {
                 <TextField id="lobby-name" label="Lobby Name"></TextField>
                 <form autoComplete="off">
                     <FormControl>
-                        <Select id = "num-players"
+                        <Select id = "num-players" value={this.num_players}
                             onChange={this.handleChange}>
                             <MenuItem value="">
                                 <em>None</em>
@@ -128,12 +93,18 @@ class CreateRoom extends React.Component {
             <MenuItem value={1700}>3000</MenuItem>
           </Select>
         </FormControl>
-
-                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
+        
+                <Button className="create-room-button" variant="outlined"  onClick={this.createLobby}>Create Lobby</Button>
                 <Button variant="outlined" component={Link} to="/lobby">Back</Button>
             </div>
         );
+      } else {
+        return(
+        <WaitingRoom latitude={this.state.lat} longitude={this.state.lng} radius={this.state.radius}/>
+        );
+      }
     }
+
 }
 
 export default GoogleApiWrapper({

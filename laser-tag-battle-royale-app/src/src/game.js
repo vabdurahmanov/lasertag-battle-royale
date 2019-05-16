@@ -1,14 +1,32 @@
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import GoogleMapReact,{Circle} from 'google-map-react';
 import Lobby from './lobby';
-//import './game.css';
+import {geolocated} from 'react-geolocated';
+import {withScriptjs,withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
+import { compose, withProps } from "recompose";
+import './game.css';
 /*global google*/
-
+const MyMapComponent = compose(
+  withProps({
+    googleMapURL:
+      "https://maps.googleapis.com/maps/api/js?key=KEY&v=3.exp&libraries=geometry,drawing,places",
+    loadingElement: <div style={{ height: `500px`, width: '500px'}} />,
+    containerElement: <div style={{ height: `500px`, width: '500px' }} />,
+    mapElement: <div style={{ height: `500px`, width: '500px'}} />
+  }),
+  withScriptjs,
+  withGoogleMap
+)(props => (
+  <GoogleMap defaultZoom={13}  defaultCenter={{ lat: 0, lng: 0}}>
+  <Circle defaultCenter={{ lat: 0, lng: 0 }}
+                radius ={100}>
+                </Circle>
+    <Marker position={{ lat: 0, lng: 0 }} />
+  </GoogleMap>
+));
 
 class Game extends React.Component {
   render() {
-    return <h1>Game</h1>
+    return <div><h1>Game</h1><MyMapComponent  /></div>
   }
 }
 
