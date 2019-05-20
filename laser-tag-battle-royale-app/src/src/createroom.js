@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import WaitingRoom from './waitingroom';
+import { string } from 'prop-types';
 
 
 class CreateRoom extends React.Component {
@@ -40,6 +41,7 @@ class CreateRoom extends React.Component {
   };
 
 
+
     createLobby(){
         console.log("Attempting to create room");
         //Change this later to read the lobby name of a certain clicked lobby
@@ -54,7 +56,6 @@ class CreateRoom extends React.Component {
         let latitude = "latitude" + "=" + "-33"; //Replace with queried lat & long
         let longitude = "longitude" + "=" + "33";
         let radius = "radius" + "=" + this.radius;
-        console.log(typeof this.lat);
         form_body.push(userID);
         form_body.push(laserGunID);
         form_body.push(vestID);
@@ -62,7 +63,6 @@ class CreateRoom extends React.Component {
         form_body.push(longitude);
         form_body = form_body.join('&');
 
-        console.log(form_body);
         let other_params = {
             method: "POST",
             headers: {
@@ -71,16 +71,31 @@ class CreateRoom extends React.Component {
             body: form_body
         };
 
-        fetch(URL, other_params)
-            .then( data => {
-                console.log(data);
-            })
+        return fetch(URL, other_params)
             .then(res => {
-                console.log(res);
+              if (res.ok){
+                let copy = res.clone();
+                return copy.text();
+                }
+              }  
+            )
+            .then( data => {
+              console.log(data);
             })
-            .then(error =>{
+            .catch(error =>{
                 console.log(error);
             });
+      }
+
+      createLobbyEvaluated = () => {
+        let prom = this.createLobby();
+        prom.then((response) =>{
+          console.log(response);
+        }).then((data) =>{
+          console.log(data);
+        }).catch((err) =>{
+          console.log(err);
+        })
       }
 
     render(){
@@ -138,7 +153,7 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobbyEvaluated}>Create Lobby</Button>
                 <Button variant="outlined" component={Link} to="/lobby">Back</Button>
             </div>
         );
@@ -149,6 +164,11 @@ class CreateRoom extends React.Component {
       }
     }
 
+}
+
+async function getResponseBody(res){
+  let cry = await res;
+  return cry;
 }
 
 export default GoogleApiWrapper({
