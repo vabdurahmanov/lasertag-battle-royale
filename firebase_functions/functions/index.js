@@ -103,3 +103,16 @@ exports.playerCount = functions.https.onRequest((request, response) => {
       console.log('Error getting document', err);
     });
 });
+
+// Gets list of games
+exports.gameList = functions.https.onRequest((request, response) => {
+  let _ = async_functions.item_list(admin)
+    .then(data => {
+      cors(request, response, () => {
+        return response.send(data);
+      });
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    })
+});

@@ -68,4 +68,15 @@ async function player_count(firebase_admin, gameID) {
   return data.players.length;
 };
 
-module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info, player_count };
+async function item_list(firebase_admin) {
+  let documents = await firebase_admin.firestore().collection("games").get();
+
+  let dataList = [];
+  documents.forEach(doc => {
+    dataList.push(doc.data());
+  });
+
+  return dataList;
+};
+
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info, player_count, item_list };
