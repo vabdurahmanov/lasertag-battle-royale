@@ -9,7 +9,8 @@ admin.initializeApp();
 exports.initalizeGame = functions.https.onRequest((request, response) => {
   const gameLocation = {
     latitude: Number(request.body.latitude),
-    longitude: Number(request.body.longitude)
+    longitude: Number(request.body.longitude),
+    radius: Number(request.body.radius)
   };
 
   const playerInfo = {
