@@ -24,6 +24,9 @@ const styles = theme => ({
 //Want to get list of open Lobbies here and then post it
 //Maybe use divider from material-ui?
 class Lobby extends React.Component {
+  state = {
+    username: this.props.username //Note for jasmine: This now holds the username
+  }
   render() {
     return (
       <div className = "root">   
@@ -31,7 +34,10 @@ class Lobby extends React.Component {
         <h1 className="Title">Lobby</h1>
           <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
             <Grid className = "BeginGrid" item xs = {12} sm = {2}>
-              <Button className="Button" variant="outlined" component = {Link} to="Lobby/Create">Create Lobby</Button>
+              <Link to={{
+      pathname: '/lobby/create',
+      state: { test: "YOUMAND" }
+    }}>Create Lobby</Link>
             </Grid>
             <Grid item xs = {12} sm = {2} >
                 <Button className="Button" variant="outlined" component = {Link} to="Lobby/Waiting">Join Lobby</Button>

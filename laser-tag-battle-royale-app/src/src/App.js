@@ -15,13 +15,13 @@ class App extends React.Component {
         nameInput: false
     };
 
-setName = () => {
-  if(username.length != 0){
+setName = (event) => {
+  if(event.length != 0){
       this.setState({nameInput: true});
   }
   this.setState({
-     username:  username
-  });  
+     username:  this.state.inputValue
+  }); 
 };
 handleChange = (e) => {
   this.setState({inputValue: e.target.value});
@@ -43,6 +43,7 @@ changePage = () => {
              id="outlined-name"
              label="Name"
              margin="normal"
+             values={this.state.value}
              onChange={this.handleChange}
              variant="outlined"
             />
@@ -58,7 +59,7 @@ changePage = () => {
    );
       } else {
           return(
-              <Lobby />
+              <Lobby username={this.state.username}/>
           );
       }
   }

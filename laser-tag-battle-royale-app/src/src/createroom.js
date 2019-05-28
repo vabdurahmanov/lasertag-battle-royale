@@ -20,7 +20,9 @@ class CreateRoom extends React.Component {
         lng: -117.4,
         zoom: 12,
         radius:1000,
-        hasClicked: false
+        hasClicked: false,
+        test: this.props.testvalue
+
     }
 
     handleChange = (event)=>{
@@ -31,6 +33,7 @@ class CreateRoom extends React.Component {
       lat:event.latLng.lat(),
       lng:event.latLng.lng()
     })
+    console.log(this.props.params)
   };
    handleRadiusChange = (event) => {
     this.setState({ radius: event.target.value });
@@ -108,5 +111,5 @@ class CreateRoom extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyBqbO3zr5or5MVFbPobkd1ilgCN06TrTDc")
+  apiKey: ("")
 })(CreateRoom)
