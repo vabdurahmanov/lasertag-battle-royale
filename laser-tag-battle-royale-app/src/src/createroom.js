@@ -33,7 +33,7 @@ class CreateRoom extends React.Component {
       lat:event.latLng.lat(),
       lng:event.latLng.lng()
     })
-    console.log(this.props.params)
+    console.log(this.props.location.state.username)  //This holds the passed in prop from LOBBY
   };
    handleRadiusChange = (event) => {
     this.setState({ radius: event.target.value });
@@ -41,7 +41,6 @@ class CreateRoom extends React.Component {
 
     createLobby=(event)=>{
       this.setState({hasClicked: true});
-
       };
 
     render(){

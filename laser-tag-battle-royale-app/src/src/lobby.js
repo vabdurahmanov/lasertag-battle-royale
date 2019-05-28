@@ -34,13 +34,18 @@ class Lobby extends React.Component {
         <h1 className="Title">Lobby</h1>
           <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
             <Grid className = "BeginGrid" item xs = {12} sm = {2}>
-              <Link to={{
-      pathname: '/lobby/create',
-      state: { test: "YOUMAND" }
-    }}>Create Lobby</Link>
+              <Button className="Button" variant="outlined" component = {Link} to={{
+  pathname: '/Lobby/Create',
+  state: {
+    username: this.props.username
+  }}}>Create Lobby</Button>
             </Grid>
             <Grid item xs = {12} sm = {2} >
-                <Button className="Button" variant="outlined" component = {Link} to="Lobby/Waiting">Join Lobby</Button>
+                <Button className="Button" variant="outlined" component = {Link} to={{
+  pathname: '/Lobby/Waiting',
+  state: {
+    username: this.props.username
+  }}}>Join Lobby</Button>
             </Grid>
           </Grid>
         </div>
