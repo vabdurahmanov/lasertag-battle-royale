@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import '../css/lobby.css';
+//import '../css/lobby.css';
 
 //Want to get list of open Lobbies here and then post it
 //Maybe use divider from material-ui?
@@ -70,6 +70,7 @@ class Lobby extends React.Component {
   render() {
     let lobby = this.getLobbies();
     let player_info = this.getUserInfo();
+      console.log(this.props.gunID);
     console.log(player_info);
     return (
       <div className = "root">   

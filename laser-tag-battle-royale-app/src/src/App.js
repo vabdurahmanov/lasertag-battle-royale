@@ -11,6 +11,8 @@ var username = "";
 class App extends React.Component {
     state = {
         username: "",
+        gunID: "",
+        vestID: "",
         loadPage: false,
         nameInput: false
     };
@@ -19,12 +21,15 @@ setName = (event) => {
   if(event.length != 0){
       this.setState({nameInput: true});
   }
-  this.setState({
-     username:  this.state.inputValue
-  }); 
 };
 handleChange = (e) => {
-  this.setState({inputValue: e.target.value});
+  this.setState({username: e.target.value});
+}
+handleChangegun = (e) => {
+  this.setState({gunID: e.target.value});
+}
+handleChangevest = (e) => {
+  this.setState({vestID: e.target.value});
 }
 changePage = () => {
     if(this.state.nameInput === true){
@@ -38,13 +43,33 @@ changePage = () => {
       <div className="MainMenu">
         <h1 className ="App-Title">Main</h1>
         <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
-          <Grid item xs={12}>
+        <Grid item xs={12}>
             <TextField
              id="outlined-name"
              label="Name"
              margin="normal"
              values={this.state.value}
              onChange={this.handleChange}
+             variant="outlined"
+            />
+        </Grid>
+        <Grid item xs={12}>
+            <TextField
+             id="outlined-name"
+             label="GunID"
+             margin="normal"
+             values={this.state.value}
+             onChange={this.handleChangegun}
+             variant="outlined"
+            />
+        </Grid>
+        <Grid item xs={12}>
+            <TextField
+             id="outlined-name"
+             label="VestID"
+             margin="normal"
+             values={this.state.value}
+             onChange={this.handleChangevest}
              variant="outlined"
             />
         </Grid>
@@ -59,7 +84,7 @@ changePage = () => {
    );
       } else {
           return(
-              <Lobby username={this.state.username}/>
+              <Lobby username={this.state.username} gunID={this.state.gunID} vestID={this.state.vestID}/>
           );
       }
   }
