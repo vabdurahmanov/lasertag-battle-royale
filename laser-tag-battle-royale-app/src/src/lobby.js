@@ -11,7 +11,32 @@ class Lobby extends React.Component {
     username: this.props.username //Note for jasmine: This now holds the username
   }
 
-  getUserInfoInit = () => {
+  getLobbies = () => {
+    let form_body = [];
+    let URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/gameList";
+    let other_params = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: form_body
+    };
+
+    return fetch(URL, other_params)
+    .then(res => {
+      if (res.ok){
+        let copy = res.clone();
+        return copy.json();
+      }
+    })
+    .then( data => {
+      console.log(data);
+      return data;
+    }).catch(error => {
+      console.log(error);
+    })
+  };
+  getUserInfo = () => {
     let form_body = [];
     let URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/playerInfo";
     let name = "name" + "=" + this.props.username;
@@ -41,20 +66,9 @@ class Lobby extends React.Component {
             });
   };
 
-  getUserInfo = () => {
-    let prom = this.getUserInfoInit();
-
-    prom.then(res => {
-      console.log("Res2: " + res);
-    }) .then ( data => {
-      console.log("Data2: " + data);
-    }). catch ( error => {
-      console.log(error);
-    })
-  };
-
 
   render() {
+    let lobby = this.getLobbies();
     let player_info = this.getUserInfo();
     console.log(player_info);
     return (
