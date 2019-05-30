@@ -6,12 +6,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import WaitingRoom from './waitingroom';
-import { string } from 'prop-types';
-
+import { timingSafeEqual } from 'crypto';
 
 class CreateRoom extends React.Component {
   constructor(props){
@@ -23,8 +21,10 @@ class CreateRoom extends React.Component {
         lat: 33.98,
         lng: -117.4,
         zoom: 12,
-        radius:1000,
-        hasClicked: false
+        radius:100,
+        hasClicked: false,
+        roompromise: null,
+        roomid: ''
     }
   }
     handleChange = (event) => {
@@ -55,12 +55,13 @@ class CreateRoom extends React.Component {
         let vestID = "vestID" + "=" + "1"; //Replace Number with entered vestID
         let latitude = "latitude" + "=" + "-33"; //Replace with queried lat & long
         let longitude = "longitude" + "=" + "33";
-        let radius = "radius" + "=" + this.radius;
+        let radius = "radius" + "=" + this.state.radius;
         form_body.push(userID);
         form_body.push(laserGunID);
         form_body.push(vestID);
         form_body.push(latitude);
         form_body.push(longitude);
+        form_body.push(radius);
         form_body = form_body.join('&');
 
         let other_params = {
@@ -80,7 +81,7 @@ class CreateRoom extends React.Component {
               }  
             )
             .then( data => {
-              console.log(data);
+              return data;
             })
             .catch(error =>{
                 console.log(error);
@@ -88,14 +89,23 @@ class CreateRoom extends React.Component {
       }
 
       createLobbyEvaluated = () => {
+        let _this = this;
         let prom = this.createLobby();
         prom.then((response) =>{
-          console.log(response);
+          console.log("RES: ", response);
+          return response;
         }).then((data) =>{
           console.log(data);
         }).catch((err) =>{
           console.log(err);
-        })
+        });
+      }
+    
+      setRoomID = () => {
+        this.createLobbyEvaluated.bind(this);
+        let rID = this.createLobbyEvaluated();
+        this.setState({roomid: rID});
+        console.log("RID: ", this.state.roomid);
       }
 
     render(){
@@ -111,6 +121,7 @@ class CreateRoom extends React.Component {
    ));
         return (
             <div>
+               <Button variant="outlined" component={Link} to="/lobby">Back</Button>
                 <h1>Create Lobby</h1>
                 <TextField id="lobby-name" label="Lobby Name"></TextField>
                 <form autoComplete="off">
@@ -153,13 +164,13 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobbyEvaluated}>Create Lobby</Button>
-                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.setRoomID}>Create Lobby</Button>
+               
             </div>
         );
       } else {
         return(
-        <WaitingRoom latitude={this.state.lat} longitude={this.state.lng} radius={this.state.radius}/>
+        <WaitingRoom latitude={this.state.lat} longitude={this.state.lng} radius={this.state.radius} roomid={this.state.roomid}/>
         );
       }
     }
