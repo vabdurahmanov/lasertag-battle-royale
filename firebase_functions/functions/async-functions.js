@@ -73,10 +73,17 @@ async function item_list(firebase_admin) {
 
   let dataList = [];
   documents.forEach(doc => {
-    dataList.push(doc.data());
+    dataList.push(doc.id);
   });
 
   return dataList;
 };
 
-module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info, player_count, item_list };
+async function lat_long(firebase_admin, gameID) {
+  let document = await firebase_admin.firestore().collection("games").doc(gameID).get();
+  let data = document.data();
+
+  return data.location;
+};
+
+module.exports = { game_initalization, player_add, decrement_ammo, decrement_health, player_info, player_count, item_list, lat_long };

@@ -117,3 +117,16 @@ exports.gameList = functions.https.onRequest((request, response) => {
       console.log('Error getting document', err);
     })
 });
+
+// Gets latude and longitude of game
+exports.latitudeLongitude = functions.https.onRequest((request, response) => {
+  let _ = async_functions.lat_long(admin, request.body.gameID)
+    .then(data => {
+      cors(request, response, () => {
+        return response.send(data);
+      });
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    })
+});
