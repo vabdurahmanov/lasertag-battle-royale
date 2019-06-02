@@ -6,11 +6,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import WaitingRoom from './waitingroom';
-
+import { timingSafeEqual } from 'crypto';
 
 class CreateRoom extends React.Component {
   constructor(props){
@@ -22,8 +21,10 @@ class CreateRoom extends React.Component {
         lat: 33.98,
         lng: -117.4,
         zoom: 12,
-        radius:1000,
-        hasClicked: false
+        radius:100,
+        hasClicked: false,
+        roompromise: null,
+        roomid: ''
     }
   }
     handleChange = (event) => {
@@ -40,6 +41,7 @@ class CreateRoom extends React.Component {
   };
 
 
+
     createLobby(){
         console.log("Attempting to create room");
         //Change this later to read the lobby name of a certain clicked lobby
@@ -48,21 +50,20 @@ class CreateRoom extends React.Component {
         const URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/initalizeGame"
         let form_body = [];
       
-        let userID = "userID" + "=" + "Jasmine"; //Replace Name with actual userID
-        let laserGunID = "laserGunID" + "=" + "1"; //Replace Number with entered laserGunID
-        let vestID = "vestID" + "=" + "1"; //Replace Number with entered vestID
-        let latitude = "latitude" + "=" + "-33"; //Replace with queried lat & long
-        let longitude = "longitude" + "=" + "33";
-        let radius = "radius" + "=" + this.radius;
-        console.log(typeof this.lat);
+        let userID = "userID" + "=" + this.props.location.state.username; //Replace Name with actual userID
+        let laserGunID = "laserGunID" + "=" + this.props.location.state.gunID; //Replace Number with entered laserGunID
+        let vestID = "vestID" + "=" + this.props.location.state.vestID; //Replace Number with entered vestID
+        let latitude = "latitude" + "=" + String(this.state.lat); //Replace with queried lat & long
+        let longitude = "longitude" + "=" + String(this.state.lng);
+        let radius = "radius" + "=" + this.state.radius;
         form_body.push(userID);
         form_body.push(laserGunID);
         form_body.push(vestID);
         form_body.push(latitude);
         form_body.push(longitude);
+        form_body.push(radius);
         form_body = form_body.join('&');
 
-        console.log(form_body);
         let other_params = {
             method: "POST",
             headers: {
@@ -71,20 +72,43 @@ class CreateRoom extends React.Component {
             body: form_body
         };
 
-        fetch(URL, other_params)
-            .then( data => {
-                console.log(data);
-            })
+        return fetch(URL, other_params)
             .then(res => {
-                console.log(res);
+              if (res.ok){
+                let copy = res.clone();
+                return copy.text();
+                }
+              }  
+            )
+            .then( data => {
+              return data;
             })
-            .then(error =>{
+            .catch(error =>{
                 console.log(error);
             });
       }
 
+      createLobbyEvaluated = () => {
+        let _this = this;
+        let prom = this.createLobby();
+        prom.then((response) =>{
+          console.log("RES: ", response);
+          return response;
+        }).then((data) =>{
+          console.log(data);
+        }).catch((err) =>{
+          console.log(err);
+        });
+      }
+    
+      setRoomID = () => {
+        this.createLobbyEvaluated.bind(this);
+        let rID = this.createLobbyEvaluated();
+        this.setState({roomid: rID});
+        console.log("RID: ", this.state.roomid);
+      }
+
     render(){
-      if (this.state.hasClicked === false) {
             const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
         defaultCenter = { { lat: this.state.lat, lng: this.state.lng } }
@@ -96,6 +120,7 @@ class CreateRoom extends React.Component {
    ));
         return (
             <div>
+               <Button variant="outlined" component={Link} to="/lobby">Back</Button>
                 <h1>Create Lobby</h1>
                 <TextField id="lobby-name" label="Lobby Name"></TextField>
                 <form autoComplete="off">
@@ -138,19 +163,28 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.createLobby}>Create Lobby</Button>
-                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to={{
+        pathname: '/Lobby/Waiting',
+        state: {
+          longitude: this.state.lng,
+          latitude: this.state.lat,
+          radius: this.state.radius,
+          username: this.props.location.state.username
+        }}} onClick={this.setRoomID}>Create Lobby</Button>
+               
             </div>
         );
-      } else {
-        return(
-        <WaitingRoom latitude={this.state.lat} longitude={this.state.lng} radius={this.state.radius}/>
-        );
-      }
+      
+      
     }
 
 }
 
+async function getResponseBody(res){
+  let cry = await res;
+  return cry;
+}
+
 export default GoogleApiWrapper({
-  apiKey: ("")
+  apiKey: ("AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4")
 })(CreateRoom)
