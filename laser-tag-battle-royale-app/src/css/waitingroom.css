@@ -1,0 +1,18 @@
+.WaitingRoom{
+    font-family:Arial;
+}
+
+.WaitingRoomTitle{
+    text-align: center;
+}
+
+.Location{
+    text-align: center;
+    align-content: center;
+    align-self: center;
+}
+
+.Buttons{
+    align-self: center;
+    padding-left: 36%
+}

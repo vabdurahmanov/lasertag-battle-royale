@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import App from "./App";
+import '../css/game.css';
 //longitude = {user.lat = this.props.coords && this.props.coords.latitude} 
 //latitude = {user.lng = this.props.coords && this.props.coords.longitude}
 //import '../css/game.css';
@@ -160,20 +161,26 @@ clearInterval(this.interval);
    ));
    if(this.state.eliminated === false){
     return(
-    <div><h1>Game</h1>Your location: longitude = 
-    {user.lat = this.state.userLocation.lat} latitude = 
-{user.lng = this.state.userLocation.lng}<GoogleMapExample
-containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
-mapElement={ <div style={{ height: `100%` }} /> }
->
-</GoogleMapExample>
-{this.setLoc()}
-</div>
-    ); } else  {
-      return(
-        <div>
-      <h1>YOURE OUT</h1>
-      <Button variant="outlined" component = {Link} to="/">Back to Start</Button>
+      <div className = "Game">
+        <h1>Game</h1>
+        Your location: 
+          longitude : {user.lat = this.state.userLocation.lat} latitude : {user.lng = this.state.userLocation.lng}
+        <Grid container direction="column" alignContent="center" alignItems="center">
+          <Grid item>
+            <GoogleMapExample
+              containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+              mapElement={ <div style={{ height: `100%` }} /> }
+            >
+            </GoogleMapExample>
+          </Grid>
+        </Grid>
+        {this.setLoc()}
+      </div>); } 
+      else  {
+        return(
+        <div className = "Game">
+          <h1>YOURE OUT</h1>
+          <Button variant="outlined" component = {Link} to="/">Back to Start</Button>
         </div>
       );
     }
