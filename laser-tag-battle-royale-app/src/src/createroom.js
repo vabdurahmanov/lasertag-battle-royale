@@ -50,11 +50,11 @@ class CreateRoom extends React.Component {
         const URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/initalizeGame"
         let form_body = [];
       
-        let userID = "userID" + "=" + "Jasmine"; //Replace Name with actual userID
-        let laserGunID = "laserGunID" + "=" + "1"; //Replace Number with entered laserGunID
-        let vestID = "vestID" + "=" + "1"; //Replace Number with entered vestID
-        let latitude = "latitude" + "=" + "-33"; //Replace with queried lat & long
-        let longitude = "longitude" + "=" + "33";
+        let userID = "userID" + "=" + this.props.location.state.username; //Replace Name with actual userID
+        let laserGunID = "laserGunID" + "=" + this.props.location.state.gunID; //Replace Number with entered laserGunID
+        let vestID = "vestID" + "=" + this.props.location.state.vestID; //Replace Number with entered vestID
+        let latitude = "latitude" + "=" + String(this.state.lat); //Replace with queried lat & long
+        let longitude = "longitude" + "=" + String(this.state.lng);
         let radius = "radius" + "=" + this.state.radius;
         form_body.push(userID);
         form_body.push(laserGunID);
@@ -109,7 +109,6 @@ class CreateRoom extends React.Component {
       }
 
     render(){
-      if (this.state.hasClicked === false) {
             const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
         defaultCenter = { { lat: this.state.lat, lng: this.state.lng } }
@@ -164,15 +163,19 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button className="create-room-button" variant="outlined" component={Link} to="/lobby/waiting" onClick={this.setRoomID}>Create Lobby</Button>
+                <Button className="create-room-button" variant="outlined" component={Link} to={{
+        pathname: '/Lobby/Waiting',
+        state: {
+          longitude: this.state.lng,
+          latitude: this.state.lat,
+          radius: this.state.radius,
+          username: this.props.location.state.username
+        }}} onClick={this.setRoomID}>Create Lobby</Button>
                
             </div>
         );
-      } else {
-        return(
-        <WaitingRoom latitude={this.state.lat} longitude={this.state.lng} radius={this.state.radius} roomid={this.state.roomid}/>
-        );
-      }
+      
+      
     }
 
 }
@@ -183,5 +186,5 @@ async function getResponseBody(res){
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("")
+  apiKey: ("AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4")
 })(CreateRoom)
