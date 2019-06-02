@@ -5,18 +5,19 @@ import Lobby from './src/lobby';
 import Game from './src/game';
 import WaitingRoom from './src/waitingroom';
 import CreateRoom from './src/createroom';
+import Confirm from './src/Confirm';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
 	<Router>
-		<div>
 			<Route exact path="/" component={App} />
-			<Route exact path="/lobby" component={Lobby} />
+			<Route exact path="/Lobby" component={Lobby} />
 			<Route path="/Lobby/Create" component={CreateRoom}/>
 			<Route path = "/Lobby/Waiting" component={WaitingRoom}/>
-			<Route path ="/lobby/start" component={Game}/>
-		</div>
+			<Route path ="/Lobby/Start" component={Game}/>
+			<Route path = "/Lobby/Confirm" component={Confirm}/>
+		
 	</Router>
 )
 

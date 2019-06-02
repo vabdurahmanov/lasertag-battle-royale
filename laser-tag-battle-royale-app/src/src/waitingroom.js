@@ -11,24 +11,7 @@ var user = {
   lat: 0
 };
 
-const MyMapComponent = compose(
-  withProps({
-    googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `500px`, width: '500px'}} />,
-    containerElement: <div style={{ height: `500px`, width: '500px' }} />,
-    mapElement: <div style={{ height: `500px`, width: '500px'}} />
-  }),
-  withScriptjs,
-  withGoogleMap
-)(props => (
-  <GoogleMap defaultZoom={13}  defaultCenter={{ lat: user.lat, lng: user.lng }}>
-    <Marker position={{ lat: user.lat, lng: user.lng }} />
-    <Circle defaultCenter={{ lat: golat, lng: golng}}
-                radius ={radius}>
-                </Circle>
-  </GoogleMap>
-));
+
 var golng = 0;
 var golat = 0;
 var radius = 0;
@@ -76,6 +59,24 @@ class WaitingRoom extends React.Component {
 
   render() {
     //Start should only be visible to the creator of the room.
+    const MyMapComponent = compose(
+      withProps({
+        googleMapURL:
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4&v=3.exp&libraries=geometry,drawing,places",
+        loadingElement: <div style={{ height: `500px`, width: '500px'}} />,
+        containerElement: <div style={{ height: `500px`, width: '500px' }} />,
+        mapElement: <div style={{ height: `500px`, width: '500px'}} />
+      }),
+      withScriptjs,
+      withGoogleMap
+    )(props => (
+      <GoogleMap defaultZoom={13}  defaultCenter={{ lat: this.props.location.state.latitude, lng: this.props.location.state.longitude }}>
+        <Marker position={{ lat: user.lat, lng: user.lng }} />
+        <Circle defaultCenter={{ lat: this.props.location.state.latitude, lng: this.props.location.state.longitude}}
+                    radius ={radius}>
+                    </Circle>
+      </GoogleMap>
+    ));
     if(this.state.unlock === true){
     return (
       <div>  
@@ -86,7 +87,14 @@ class WaitingRoom extends React.Component {
         <MyMapComponent  />
         {setLoc(this.state)}{this.checkLock}
         </div>
-        <Button variant="outlined" component = {Link} to="/Lobby/Start">Start</Button>
+        <Button variant="outlined" component = {Link} to={{
+        pathname: '/Lobby/Start',
+        state: {
+          longitude: this.props.location.state.longitude,
+          latitude: this.props.location.state.latitude,
+          radius: this.props.location.state.radius,
+          username: this.props.location.state.username
+        }}}>Start</Button>
         <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
     </div>
     )
@@ -98,7 +106,7 @@ class WaitingRoom extends React.Component {
           {user.lat = this.props.coords && this.props.coords.latitude} latitude = 
       {user.lng = this.props.coords && this.props.coords.longitude}
           <MyMapComponent  />
-          {setLoc(this.state)}
+          {setLoc(this.state)}{console.log("LONGy: ",this.props.location.state.longitude)}
           </div>
           <Button variant="outlined" onClick = {this.checkLock}>Check</Button>
           <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>

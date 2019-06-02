@@ -38,7 +38,6 @@ changePage = () => {
 }
   
   render(){
-      if(this.state.loadPage === false){
     return (
       <div className="MainMenu">
         <h1 className ="App-Title">Main</h1>
@@ -77,16 +76,17 @@ changePage = () => {
         <Button variant="outlined" onClick={this.setName}>Submit</Button>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="outlined" onClick={this.changePage}>Look for Lobby</Button>
+            <Button variant="outlined" onClick={this.createLobby} component = {Link} to={{
+        pathname: '/lobby',
+        state: {
+          username: this.state.username,
+          gunID: this.state.gunID,
+          vestID: this.state.vestID
+        }}}>Look for Lobby</Button>
           </Grid>
         </Grid>
       </div>
    );
-      } else {
-          return(
-              <Lobby username={this.state.username} gunID={this.state.gunID} vestID={this.state.vestID}/>
-          );
-      }
   }
 }
 
