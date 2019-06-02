@@ -17,7 +17,7 @@ exports.initalizeGame = functions.https.onRequest((request, response) => {
     name: request.body.userID,
     laserGunID: Number(request.body.laserGunID),
     vestID: Number(request.body.vestID),
-    health: 100,
+    health: 10,
     ammo: 100
   };
 
@@ -40,7 +40,7 @@ exports.addPlayer = functions.https.onRequest((request, response) => {
     name: request.body.userID,
     laserGunID: Number(request.body.laserGunID),
     vestID: Number(request.body.vestID),
-    health: 100,
+    health: 10,
     ammo: 100
   };
 
