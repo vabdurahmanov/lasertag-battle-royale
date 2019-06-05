@@ -39,8 +39,7 @@ class Game extends React.Component {
     eliminated: false,
     username: this.props.location.state.username,
     userstate: {
-      ammo: 10,
-      health: 1000
+      ammo: 10
     }
 
   };
@@ -66,10 +65,13 @@ class Game extends React.Component {
     } else {
       console.log("Youre OUT")
     }
-    if(this.state.userstate.health === 10){
-      this.setState({
-        eliminated: true
-      })
+    if(this.state.userstate.health != undefined){
+        if(this.state.userstate.health <= 7){
+
+          this.setState({
+            eliminated: true
+          })
+        }
     }
     console.log("This is distance",dist)
     console.log("radius",radius)
@@ -77,7 +79,7 @@ class Game extends React.Component {
     console.log("elin",this.state.elminated)
   
   
-  }asdf
+  }
   getUserInfo = () => {
     let form_body = [];
     let URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/playerInfo";
@@ -123,10 +125,18 @@ class Game extends React.Component {
     );
     let test = this.getUserInfo().then(
       (test)=>{
-      test = test;     
+      test = test;
+      if(typeof(test) != 'undefined'){
       this.setState({
       userstate: test
     });
+      } else {
+       this.setState({
+      userstate: {
+          health: "Retrieving Health"
+      }
+    });   
+      }
   });
  //6 seconds
 
@@ -140,13 +150,14 @@ class Game extends React.Component {
 componentWillUnmount() {
 clearInterval(this.interval);
 }
-    elimcheck=()=>{
-      if(this.state.eliminated === true){
-        return(
-          <h1>GET OUT</h1>
-        );
-      }
-    }
+elimcheck=()=>{
+    console.log(this.state.userstate.health)
+  if(this.state.eliminated === true){
+    return(
+      <h1>GET OUT</h1>
+    );
+  }
+}
   render() {
     const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
@@ -162,7 +173,9 @@ clearInterval(this.interval);
     return(
     <div><h1>Game</h1>Your location: longitude = 
     {user.lat = this.state.userLocation.lat} latitude = 
-{user.lng = this.state.userLocation.lng}<GoogleMapExample
+{user.lng = this.state.userLocation.lng}
+        <div>Name: {this.state.username} Health: {this.state.userstate.health}</div>
+        <GoogleMapExample
 containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
 mapElement={ <div style={{ height: `100%` }} /> }
 >
@@ -181,5 +194,5 @@ mapElement={ <div style={{ height: `100%` }} /> }
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4")
+  apiKey: ("AIzaSyAS_wJ4wVzmzW4EPcFp8Wn2V9pstpusy9w")
 })(Game)

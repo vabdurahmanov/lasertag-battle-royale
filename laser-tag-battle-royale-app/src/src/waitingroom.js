@@ -62,7 +62,7 @@ class WaitingRoom extends React.Component {
     const MyMapComponent = compose(
       withProps({
         googleMapURL:
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4&v=3.exp&libraries=geometry,drawing,places",
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyAS_wJ4wVzmzW4EPcFp8Wn2V9pstpusy9w&v=3.exp&libraries=geometry,drawing,places",
         loadingElement: <div style={{ height: `500px`, width: '500px'}} />,
         containerElement: <div style={{ height: `500px`, width: '500px' }} />,
         mapElement: <div style={{ height: `500px`, width: '500px'}} />
