@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
+import '../css/confirm.css';
 
 
 class Confirm extends React.Component {
@@ -114,30 +115,40 @@ class Confirm extends React.Component {
          </GoogleMap>
       ));
       return(
-         <div>
-                            <GoogleMapExample
-          containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
-          mapElement={ <div style={{ height: `100%` }} /> }
-        >
-        {console.log(this.state.longitude)}
-        {console.log(this.state.latitude)}
-        {console.log(this.props.location.state.username)}
-        {console.log(this.props.location.state.gunID)}
-        </GoogleMapExample>
-        <Button onClick={this.addPlayer}>Register</Button>
-        <Button className="Button" variant="outlined"  component = {Link} to={{
-        pathname: '/Lobby/Waiting',
-        state: {
-          longitude: this.state.longitude,
-          latitude: this.state.latitude,
-          radius: this.state.radius,
-          username: this.props.location.state.username
-        }}}>Join Game!</Button>
-        <Button className="Button" variant="outlined" component = {Link} to={{
-        pathname: '/Lobby',
-        state: {
-          gameID: 7
-        }}}>Wrong game</Button>
+         <div className="Confirm">
+            <Grid container spacing={3} direction="column" alignContent="center" alignItems="center">
+                <GoogleMapExample
+                  containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+                  mapElement={ <div style={{ height: `100%` }} /> }>
+                  {console.log(this.state.longitude)}
+                  {console.log(this.state.latitude)}
+                  {console.log(this.props.location.state.username)}
+                  {console.log(this.props.location.state.gunID)}
+                </GoogleMapExample>
+              </Grid>
+              <Grid container className = "buttonGrid" spacing ={8} alignContent="center" alignItems="center" direction="row" justify="center">
+                <Grid item xs={4} alignContent="center">
+                  <Button onClick={this.addPlayer} variant="outlined">Register</Button>
+                </Grid>
+                <Grid item xs={4} alignContent="center">
+                  <Button className="Button" variant="outlined"  component = {Link} to={{
+                    pathname: '/Lobby/Waiting',
+                    state: {
+                      longitude: this.state.longitude,
+                      latitude: this.state.latitude,
+                      radius: this.state.radius,
+                      username: this.props.location.state.username
+                    }
+                  }}>Join Game!</Button>
+                </Grid>
+                <Grid item xs = {4} alignContent="center">
+                  <Button className="Button" variant="outlined" component = {Link} to={{
+                    pathname: '/Lobby',
+                    state: {
+                    gameID: 7
+                  }}}>Wrong game</Button>
+                </Grid>
+            </Grid>
          </div>
       )
    }

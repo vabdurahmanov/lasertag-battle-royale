@@ -119,7 +119,7 @@ class CreateRoom extends React.Component {
       </GoogleMap>
    ));
         return (
-            <div>
+            <div className="CreateRoom">
                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
                 <h1>Create Lobby</h1>
                 <TextField id="lobby-name" label="Lobby Name"></TextField>
@@ -163,16 +163,18 @@ class CreateRoom extends React.Component {
           </Select>
         </FormControl>
 
-                <Button className="create-room-button" variant="outlined" component={Link} to={{
-        pathname: '/Lobby/Waiting',
-        state: {
-          longitude: this.state.lng,
-          latitude: this.state.lat,
-          radius: this.state.radius,
-          username: this.props.location.state.username
-        }}} onClick={this.setRoomID}>Create Lobby</Button>
+        <Button className="create-room-button" variant="outlined" component={Link} to={{
+          pathname: '/Lobby/Waiting',
+          state: {
+            longitude: this.state.lng,
+            latitude: this.state.lat,
+            radius: this.state.radius,
+            username: this.props.location.state.username
+          }
+          }}
+          onClick={this.setRoomID}>Create Lobby</Button>
                
-            </div>
+        </div>
         );
       
       

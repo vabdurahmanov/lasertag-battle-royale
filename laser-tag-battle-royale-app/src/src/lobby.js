@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-//import '../css/lobby.css';
+import '../css/lobby.css';
 
 //Want to get list of open Lobbies here and then post it
 //Maybe use divider from material-ui?
@@ -127,7 +127,7 @@ class Lobby extends React.Component {
     var i = 0;
     let listing = []
     for (i = 0; i < this.state.lobby.length ; i ++){
-      listing.push(<Grid item xs ={12}><Button  variant="outlined" component = {Link} to={{
+      listing.push(<Grid item xs ={12}>< Button variant="outlined" component = {Link} to={{
         pathname: '/Lobby/Confirm',
         state: {
           gameID: this.state.lobby[i],
@@ -154,23 +154,25 @@ class Lobby extends React.Component {
     //let player_info = this.getUserInfo();
     //console.log(this.props.gunID);
     return (
-      <div className = "root">   
+      <div className = "Lobby">   
         <Button className="Button" variant="outlined" component = {Link} to="/">Back</Button>
         <h1 className="Title">Lobby</h1>
-          <Grid className = "Grid" container spacing={24} justify="space-evenly" alignItems="stretch" spacing={16}>
-            <Grid className = "BeginGrid" item xs = {12}>
+          <Grid className = "Grid" container spacing={8} justify="center" alignContent = "center" alignItems="center" direction="column">
+            <Grid item className = "BeginGrid" xs = {12}>
               <Button className="Button" variant="outlined" component = {Link} to={{
-  pathname: '/Lobby/Create',
-  state: {
-    username: this.props.location.state.username,
-    gunID: this.props.location.state.gunID,
-    vestID: this.props.location.state.vestID
-  }}}>Create Lobby</Button>
+                  pathname: '/Lobby/Create',
+                  state: {
+                    username: this.props.location.state.username,
+                    gunID: this.props.location.state.gunID,
+                    vestID: this.props.location.state.vestID
+                  }
+                }
+              }>Create Lobby</Button>
             </Grid>
             <Grid item xs = {12}>
               {this.renderlobby()}
             </Grid>
-            <Grid item xs = {12} >
+            <Grid item xs = {12}>
                 <Button  variant="outlined" onClick={this.getList}>Refresh List</Button>
                 </Grid>
           </Grid>

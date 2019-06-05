@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import {geolocated} from 'react-geolocated';
+import Grid from '@material-ui/core/Grid';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withScriptjs,withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import { compose, withProps } from "recompose";
+import '../css/waitingroom.css';
 
 var user = {
   lng: 0,
@@ -78,38 +80,54 @@ class WaitingRoom extends React.Component {
       </GoogleMap>
     ));
     if(this.state.unlock === true){
-    return (
-      <div>  
-        <h1>WaitingRoom</h1>
-        <div>Your location: longitude = 
-        {user.lat = this.props.coords && this.props.coords.latitude} latitude = 
-    {user.lng = this.props.coords && this.props.coords.longitude}
-        <MyMapComponent  />
-        {setLoc(this.state)}{this.checkLock}
+      return (
+        <div className="WaitingRoom">  
+          <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
+          <h1 className="WaitingRoomTitle">Waiting Room</h1>
+          <Grid container direction="column" alignContent="center" alignItems="center">
+            <Grid item>
+              <div>Your location: Longitude : 
+                {user.lat = this.props.coords && this.props.coords.latitude} Latitude : 
+                {user.lng = this.props.coords && this.props.coords.longitude}
+                <MyMapComponent  />
+                {setLoc(this.state)}{this.checkLock}
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container className="Buttons">
+            <Grid item>
+              <Button variant="outlined" component = {Link} to={{
+                pathname: '/Lobby/Start',
+                state: {
+                  longitude: this.props.location.state.longitude,
+                  latitude: this.props.location.state.latitude,
+                  radius: this.props.location.state.radius,
+                  username: this.props.location.state.username
+                }}}>Start</Button>
+            </Grid>
+          </Grid>
         </div>
-        <Button variant="outlined" component = {Link} to={{
-        pathname: '/Lobby/Start',
-        state: {
-          longitude: this.props.location.state.longitude,
-          latitude: this.props.location.state.latitude,
-          radius: this.props.location.state.radius,
-          username: this.props.location.state.username
-        }}}>Start</Button>
-        <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
-    </div>
-    )
+      )
     } else {
       return (
-        <div>  
-          <h1>WaitingRoom</h1>
-          <div>Your location: longitude = 
-          {user.lat = this.props.coords && this.props.coords.latitude} latitude = 
-      {user.lng = this.props.coords && this.props.coords.longitude}
-          <MyMapComponent  />
-          {setLoc(this.state)}{console.log("LONGy: ",this.props.location.state.longitude)}
-          </div>
-          <Button variant="outlined" onClick = {this.checkLock}>Check</Button>
+        <div className="WaitingRoom">  
           <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
+          <h1 className="WaitingRoomTitle">Waiting Room</h1>
+          <Grid container direction="column" alignContent="center" alignItems="center">
+            <Grid item>
+              <div className="Location"> Your location: Longitude : 
+                {user.lat = this.props.coords && this.props.coords.latitude} Latitude : 
+                {user.lng = this.props.coords && this.props.coords.longitude}
+                <MyMapComponent  />
+                {setLoc(this.state)}{this.checkLock}
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container className="Buttons" spacing = {32}>
+            <Grid item>
+              <Button variant="outlined" onClick = {this.checkLock}>Check</Button>
+            </Grid>
+          </Grid>
       </div>
       )
     }

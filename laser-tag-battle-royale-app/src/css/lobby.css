@@ -1,5 +1,6 @@
 .Lobby{
     text-align:center;
+    align-content: center;
 }
 
 .Title{
@@ -9,6 +10,11 @@
 
 .helpy{
     margin:20px;
+}
+
+.Grid{
+    align-content: center;
+    justify-content: center;
 }
 /*
 h1{
