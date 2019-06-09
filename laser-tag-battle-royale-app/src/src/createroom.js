@@ -122,7 +122,6 @@ class CreateRoom extends React.Component {
             <div>
                <Button variant="outlined" component={Link} to="/lobby">Back</Button>
                 <h1>Create Lobby</h1>
-                <TextField id="lobby-name" label="Lobby Name"></TextField>
                 <form autoComplete="off">
                     <FormControl>
 
@@ -186,5 +185,5 @@ async function getResponseBody(res){
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyAS_wJ4wVzmzW4EPcFp8Wn2V9pstpusy9w")
+  apiKey: ("AIzaSyBUQwcOqg3-P-gf1sQjTakr5BOqes0TcMw")
 })(CreateRoom)

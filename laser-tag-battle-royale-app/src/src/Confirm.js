@@ -122,16 +122,17 @@ class Confirm extends React.Component {
         {console.log(this.state.longitude)}
         {console.log(this.state.latitude)}
         {console.log(this.props.location.state.username)}
-        {console.log(this.props.location.state.gunID)}
+        {console.log("sdfsd",this.props.location.state.gameID)}
         </GoogleMapExample>
-        <Button onClick={this.addPlayer}>Register</Button>
+        <Button className="Button" variant="outlined" onClick={this.addPlayer}>Register</Button>
         <Button className="Button" variant="outlined"  component = {Link} to={{
         pathname: '/Lobby/Waiting',
         state: {
           longitude: this.state.longitude,
           latitude: this.state.latitude,
           radius: this.state.radius,
-          username: this.props.location.state.username
+          username: this.props.location.state.username,
+          gameID: this.props.location.state.gameID
         }}}>Join Game!</Button>
         <Button className="Button" variant="outlined" component = {Link} to={{
         pathname: '/Lobby',
@@ -144,5 +145,5 @@ class Confirm extends React.Component {
 
 }
 export default GoogleApiWrapper({
-   apiKey: ("AIzaSyAS_wJ4wVzmzW4EPcFp8Wn2V9pstpusy9w")
+   apiKey: ("AIzaSyBUQwcOqg3-P-gf1sQjTakr5BOqes0TcMw")
  })(Confirm)

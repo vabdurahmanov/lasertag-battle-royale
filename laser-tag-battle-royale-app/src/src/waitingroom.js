@@ -62,7 +62,7 @@ class WaitingRoom extends React.Component {
     const MyMapComponent = compose(
       withProps({
         googleMapURL:
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyAS_wJ4wVzmzW4EPcFp8Wn2V9pstpusy9w&v=3.exp&libraries=geometry,drawing,places",
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyBUQwcOqg3-P-gf1sQjTakr5BOqes0TcMw&v=3.exp&libraries=geometry,drawing,places",
         loadingElement: <div style={{ height: `500px`, width: '500px'}} />,
         containerElement: <div style={{ height: `500px`, width: '500px' }} />,
         mapElement: <div style={{ height: `500px`, width: '500px'}} />
@@ -93,7 +93,10 @@ class WaitingRoom extends React.Component {
           longitude: this.props.location.state.longitude,
           latitude: this.props.location.state.latitude,
           radius: this.props.location.state.radius,
-          username: this.props.location.state.username
+          username: this.props.location.state.username,
+          userLat:user.lat,
+          userLng:user.lng,
+          gameID:this.props.location.state.gameID
         }}}>Start</Button>
         <Button variant="outlined" component = {Link} to="/Lobby">Back</Button>
     </div>
