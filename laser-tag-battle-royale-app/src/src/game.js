@@ -4,13 +4,16 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
+import {geolocated} from 'react-geolocated';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Map, InfoWindow, GoogleApiWrapper,Polygon} from 'google-maps-react';
 import {withGoogleMap,GoogleMap, Marker, Circle} from "react-google-maps";
 import App from "./App";
-import '../css/game.css';
+import smile from './sad.png';
+import Info from './Info';
+import Timer from './Timer';
 //longitude = {user.lat = this.props.coords && this.props.coords.latitude} 
 //latitude = {user.lng = this.props.coords && this.props.coords.longitude}
 //import '../css/game.css';
@@ -40,45 +43,59 @@ class Game extends React.Component {
     eliminated: false,
     username: this.props.location.state.username,
     userstate: {
-      ammo: 10,
-      health: 1000
-    }
+      ammo: 10
+    },
+    time:10
 
   };
 
 
-  setLoc(){
+  setLoc=()=>{
     var radius = this.props.location.state.radius;
     golat = this.props.location.state.latitude; //ring location
     golng = this.props.location.state.longitude;
     radius = this.state.radius;
     var radlat1 = Math.PI * golat/180;
-    var radlat2 = Math.PI * this.state.userLocation.lat/180;
-    var theta = golng-this.state.userLocation.lng;
+    var radlat2 = Math.PI * this.props.location.state.userLat/180;
+    var theta = golng-this.props.location.state.userLng;
     var radtheta = Math.PI * theta/180;
     var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     if (dist > 1) {
       dist = 1;
     }
-    dist = Math.acos(dist);
-    dist = dist * 180/Math.PI;
-    if(dist - radius < 0){
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+        dist = dist * 1600;
+      console.log("DIFFERENCE ", radius - dist)
+    if(radius - dist > 0){
       console.log("YOURE IN")
+        
     } else {
+        this.setState({
+            eliminated: true
+        })
       console.log("Youre OUT")
     }
-    if(this.state.userstate.health === 10){
-      this.setState({
-        eliminated: true
-      })
+    if(this.state.userstate.health != undefined){
+        if(this.state.userstate.health <= 0){
+
+          this.setState({
+            eliminated: true
+          })
+        }
     }
     console.log("This is distance",dist)
     console.log("radius",radius)
     console.log("username",this.state.userstate)
     console.log("elin",this.state.elminated)
+    console.log("lat ",this.props.location.state.latitude);
+    console.log("lng ",this.props.location.state.longitude);
+    console.log("user lat ",this.props.location.state.userLat);
+    console.log("user lng ",this.props.location.state.userLng);  
   
   
-  }asdf
+  }
   getUserInfo = () => {
     let form_body = [];
     let URL = "https://us-central1-lasertag-battle-royale.cloudfunctions.net/playerInfo";
@@ -124,63 +141,83 @@ class Game extends React.Component {
     );
     let test = this.getUserInfo().then(
       (test)=>{
-      test = test;     
+      test = test;
+      if(typeof(test) != 'undefined'){
       this.setState({
       userstate: test
     });
+      } else {
+       this.setState({
+      userstate: {
+          health: "Retrieving Health"
+      }
+    });   
+      }
   });
+      this.setLoc(this.state.userLocation)
  //6 seconds
 
  this.interval = setInterval(() => {
    if(this.state.eliminated === false){
-  window.location.reload();
+    console.log("Still Running")
+    this.setState({
+        radius: this.state.radius - 200
+    })
+    this.setLoc()
    }
-}, 2000);
+}, 10000);
   }
 
 componentWillUnmount() {
 clearInterval(this.interval);
 }
-    elimcheck=()=>{
-      if(this.state.eliminated === true){
-        return(
-          <h1>GET OUT</h1>
-        );
-      }
-    }
+elimcheck=()=>{
+    console.log(this.state.userstate.health)
+  if(this.state.eliminated === true){
+    return(
+      <h1>GET OUT</h1>
+    );
+  }
+}
   render() {
     const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap onClick={this.mapClick}
         defaultCenter = { { lat: this.props.location.state.latitude, lng: this.props.location.state.longitude } }
-        defaultZoom = { 13 }
+        defaultZoom = { 14 }
       ><Marker position={{ lat: this.state.userLocation.lat, lng: this.state.userLocation.lng }} />
         <Circle defaultCenter={{ lat: this.props.location.state.latitude, lng: this.props.location.state.longitude }}
-                radius ={this.props.location.state.radius}>
+                radius ={this.state.radius}>
                 </Circle>
       </GoogleMap>
    ));
    if(this.state.eliminated === false){
     return(
-      <div className = "Game">
-        <h1>Game</h1>
-        Your location: 
-          longitude : {user.lat = this.state.userLocation.lat} latitude : {user.lng = this.state.userLocation.lng}
-        <Grid container direction="column" alignContent="center" alignItems="center">
-          <Grid item>
-            <GoogleMapExample
-              containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
-              mapElement={ <div style={{ height: `100%` }} /> }
-            >
-            </GoogleMapExample>
-          </Grid>
-        </Grid>
-        {this.setLoc()}
-      </div>); } 
-      else  {
-        return(
-        <div className = "Game">
-          <h1>YOURE OUT</h1>
-          <Button variant="outlined" component = {Link} to="/">Back to Start</Button>
+    <div><h1>In Game!</h1>
+        <div>
+            <Info username = {this.state.username} gameID={this.props.location.state.gameID} />
+        </div>
+        <div>
+           <Timer />
+        </div>
+        <GoogleMapExample
+containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+mapElement={ <div style={{ height: `100%` }} /> }
+>
+</GoogleMapExample>
+</div>
+    ); 
+  } else  {
+      return(
+        <div>
+            <div>
+                <h1>YOU'RE OUTSIDE THE RING</h1>
+            </div>
+            <div>
+                <img src={smile}/>
+            </div>
+            <div>
+                <Button variant="outlined" component = {Link} to="/">Back to Start</Button>
+            </div>  
         </div>
       );
     }
@@ -188,5 +225,5 @@ clearInterval(this.interval);
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4")
+  apiKey: ("AIzaSyBUQwcOqg3-P-gf1sQjTakr5BOqes0TcMw")
 })(Game)

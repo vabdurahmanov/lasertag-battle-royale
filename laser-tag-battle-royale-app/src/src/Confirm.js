@@ -115,45 +115,36 @@ class Confirm extends React.Component {
          </GoogleMap>
       ));
       return(
-         <div className="Confirm">
-            <Grid container spacing={3} direction="column" alignContent="center" alignItems="center">
-                <GoogleMapExample
-                  containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
-                  mapElement={ <div style={{ height: `100%` }} /> }>
-                  {console.log(this.state.longitude)}
-                  {console.log(this.state.latitude)}
-                  {console.log(this.props.location.state.username)}
-                  {console.log(this.props.location.state.gunID)}
-                </GoogleMapExample>
-              </Grid>
-              <Grid container className = "buttonGrid" spacing ={8} alignContent="center" alignItems="center" direction="row" justify="center">
-                <Grid item xs={4} alignContent="center">
-                  <Button onClick={this.addPlayer} variant="outlined">Register</Button>
-                </Grid>
-                <Grid item xs={4} alignContent="center">
-                  <Button className="Button" variant="outlined"  component = {Link} to={{
-                    pathname: '/Lobby/Waiting',
-                    state: {
-                      longitude: this.state.longitude,
-                      latitude: this.state.latitude,
-                      radius: this.state.radius,
-                      username: this.props.location.state.username
-                    }
-                  }}>Join Game!</Button>
-                </Grid>
-                <Grid item xs = {4} alignContent="center">
-                  <Button className="Button" variant="outlined" component = {Link} to={{
-                    pathname: '/Lobby',
-                    state: {
-                    gameID: 7
-                  }}}>Wrong game</Button>
-                </Grid>
-            </Grid>
+         <div>
+                            <GoogleMapExample
+          containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+          mapElement={ <div style={{ height: `100%` }} /> }
+        >
+        {console.log(this.state.longitude)}
+        {console.log(this.state.latitude)}
+        {console.log(this.props.location.state.username)}
+        {console.log("sdfsd",this.props.location.state.gameID)}
+        </GoogleMapExample>
+        <Button className="Button" variant="outlined" onClick={this.addPlayer}>Register</Button>
+        <Button className="Button" variant="outlined"  component = {Link} to={{
+        pathname: '/Lobby/Waiting',
+        state: {
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
+          radius: this.state.radius,
+          username: this.props.location.state.username,
+          gameID: this.props.location.state.gameID
+        }}}>Join Game!</Button>
+        <Button className="Button" variant="outlined" component = {Link} to={{
+        pathname: '/Lobby',
+        state: {
+          gameID: 7
+        }}}>Wrong game</Button>
          </div>
       )
    }
 
 }
 export default GoogleApiWrapper({
-   apiKey: ("AIzaSyDm63v3enBHPjerhfuNHvaoyYXruvGqwq4")
+   apiKey: ("AIzaSyBUQwcOqg3-P-gf1sQjTakr5BOqes0TcMw")
  })(Confirm)
